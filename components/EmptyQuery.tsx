@@ -9,6 +9,18 @@ const suggestions = [
   "programming",
   "coffee",
   "nature",
+  "artisan bread",
+  "food",
+  "double rainbow",
+  "lovecraft",
+  "soccer",
+  "football",
+  "family",
+  "love",
+  "bugs",
+  "ships",
+  "blue sky",
+  "fruit"
 ];
 
 const sample = (list: unknown[]) =>
