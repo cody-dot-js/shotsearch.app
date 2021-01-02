@@ -1,65 +1,107 @@
-import Head from "next/head";
-import styles from "../styles/Home.module.css";
+import * as React from "react";
+import { QueryClient } from "react-query";
+import { prefetchSearchPexels, useSearchPexels } from "hooks/useSearchPexels";
+import {
+  prefetchSearchPixabay,
+  useSearchPixabay,
+} from "hooks/useSearchPixabay";
+import {
+  prefetchSearchUnsplash,
+  useSearchUnsplash,
+} from "hooks/useSearchUnsplash";
+import { useDebouncedState } from "hooks/useDebouncedState";
+import { prefetchSearchFlickr, useSearchFlickr } from "hooks/useSearchFlickr";
+import { getApiKeys, ApiKeys } from "lib/apiKeys";
+import { GetServerSideProps } from "next";
+import { dehydrate, DehydratedState } from "react-query/hydration";
+import { useRouter } from "next/router";
+import { Header } from "components/Header";
+import { SearchField } from "components/SearchField";
+import { SearchResults } from "components/SearchResults";
+import { extractQueryParams } from "lib/extractQueryParams";
+import { EmptyQuery } from "components/EmptyQuery";
+interface Props {
+  apiKeys: ApiKeys;
+  dehydratedState: DehydratedState;
+  initialSearchQuery: string;
+}
 
-export default function Home() {
+export default function Index({ apiKeys, initialSearchQuery }: Props) {
+  const router = useRouter();
+  const [searchQuery, setSearchQuery, searchValue] = useDebouncedState<string>(
+    initialSearchQuery,
+    500
+  );
+
+  React.useEffect(() => {
+    if (searchQuery) {
+      router.push(`/?q=${searchQuery}`);
+    } else {
+      router.push("/");
+    }
+  }, [searchQuery]);
+
+  // TODO(cody): error handling...
+  const unsplash = useSearchUnsplash(apiKeys.unsplash, searchQuery);
+  const pexels = useSearchPexels(apiKeys.pexels, searchQuery);
+  const pixabay = useSearchPixabay(apiKeys.pixabay, searchQuery);
+  const flickr = useSearchFlickr(apiKeys.flickr, searchQuery);
+
   return (
-    <div className={styles.container}>
-      <Head>
-        <title>Create Next App</title>
-        <link rel="icon" href="/favicon.ico" />
-      </Head>
-
-      <main className={styles.main}>
-        <h1 className={styles.title}>
-          Welcome to <a href="https://nextjs.org">Next.js!</a>
-        </h1>
-
-        <p className={styles.description}>
-          Get started by editing{" "}
-          <code className={styles.code}>pages/index.js</code>
-        </p>
-
-        <div className={styles.grid}>
-          <a href="https://nextjs.org/docs" className={styles.card}>
-            <h3>Documentation &rarr;</h3>
-            <p>Find in-depth information about Next.js features and API.</p>
-          </a>
-
-          <a href="https://nextjs.org/learn" className={styles.card}>
-            <h3>Learn &rarr;</h3>
-            <p>Learn about Next.js in an interactive course with quizzes!</p>
-          </a>
-
-          <a
-            href="https://github.com/vercel/next.js/tree/master/examples"
-            className={styles.card}
-          >
-            <h3>Examples &rarr;</h3>
-            <p>Discover and deploy boilerplate example Next.js projects.</p>
-          </a>
-
-          <a
-            href="https://vercel.com/import?filter=next.js&utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-            className={styles.card}
-          >
-            <h3>Deploy &rarr;</h3>
-            <p>
-              Instantly deploy your Next.js site to a public URL with Vercel.
-            </p>
-          </a>
-        </div>
+    <div className="bg-gray-100 min-h-screen">
+      <Header>
+        <SearchField value={searchValue} onChange={setSearchQuery} />
+      </Header>
+      <main className="max-w-7xl mx-auto py-6 sm:px-6 lg:px-8">
+        <EmptyQuery />
+        <SearchResults
+          images={unsplash.data}
+          isLoading={unsplash.isLoading}
+          searchQuery={searchQuery}
+          source="Unsplash"
+        />
+        <SearchResults
+          source="Pexels"
+          images={pexels.data}
+          isLoading={pexels.isLoading}
+          searchQuery={searchQuery}
+        />
+        <SearchResults
+          source="Pixabay"
+          images={pixabay.data}
+          isLoading={pixabay.isLoading}
+          searchQuery={searchQuery}
+        />
+        <SearchResults
+          source="Flickr"
+          images={flickr.data}
+          isLoading={flickr.isLoading}
+          searchQuery={searchQuery}
+        />
       </main>
-
-      <footer className={styles.footer}>
-        <a
-          href="https://vercel.com?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Powered by{" "}
-          <img src="/vercel.svg" alt="Vercel Logo" className={styles.logo} />
-        </a>
-      </footer>
     </div>
   );
 }
+
+export const getServerSideProps: GetServerSideProps<Props> = async (
+  context
+) => {
+  const queryClient = new QueryClient();
+  const apiKeys = getApiKeys();
+  const { searchQuery } = extractQueryParams(context.query);
+
+  await prefetchSearchFlickr(queryClient, apiKeys.flickr, searchQuery);
+  await prefetchSearchPexels(queryClient, apiKeys.pexels, searchQuery);
+  await prefetchSearchPixabay(queryClient, apiKeys.pixabay, searchQuery);
+  await prefetchSearchUnsplash(queryClient, apiKeys.unsplash, searchQuery);
+
+  const props: Props = {
+    apiKeys,
+    dehydratedState: dehydrate(queryClient),
+    initialSearchQuery: searchQuery,
+  };
+
+  return {
+    props,
+  };
+};
