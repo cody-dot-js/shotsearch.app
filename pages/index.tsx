@@ -35,7 +35,7 @@ export default function Index({ apiKeys, initialSearchQuery }: Props) {
     setSearchQuery,
     searchValue,
     forceSetSearchQuery,
-  ] = useDebouncedState<string>(initialSearchQuery, 500);
+  ] = useDebouncedState<string>(initialSearchQuery, 250);
 
   React.useEffect(() => {
     if (!initialSearchQuery) {
