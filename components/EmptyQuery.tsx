@@ -1,6 +1,4 @@
 import * as React from "react";
-import { extractQueryParams } from "lib/extractQueryParams";
-import { useRouter } from "next/router";
 
 const suggestions = [
   "pacific northwest",
@@ -16,12 +14,12 @@ const suggestions = [
 const sample = (list: unknown[]) =>
   list[Math.floor(Math.random() * list.length)];
 
-export const EmptyQuery = () => {
-  const router = useRouter();
-  const { query } = router;
-  const { searchQuery } = extractQueryParams(query);
+interface Props {
+  searchQuery?: string;
+}
 
-  const isEmpty = searchQuery.length === 0;
+export const EmptyQuery = ({ searchQuery }: Props) => {
+  const isEmpty = !searchQuery;
 
   const suggestion = React.useMemo(() => sample(suggestions), [searchQuery]);
 

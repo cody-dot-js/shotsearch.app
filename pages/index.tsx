@@ -53,7 +53,7 @@ export default function Index({ apiKeys, initialSearchQuery }: Props) {
         <SearchField value={searchValue} onChange={setSearchQuery} />
       </Header>
       <main className="max-w-7xl mx-auto py-6 sm:px-6 lg:px-8">
-        <EmptyQuery />
+        <EmptyQuery searchQuery={searchQuery} />
         <SearchResults
           images={unsplash.data}
           isLoading={unsplash.isLoading}
