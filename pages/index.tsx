@@ -62,6 +62,7 @@ export default function Index({ apiKeys, initialSearchQuery }: Props) {
     <div className="bg-gray-100 min-h-screen">
       <Head>
         <title>ShotSearch</title>
+        <link rel="icon" href="/favicon.ico" />
         <meta name="viewport" content="initial-scale=1.0, width=device-width" />
         <meta property="og:title" content="ShotSearch" />
       </Head>
