@@ -15,7 +15,7 @@ export const SearchField = ({ value, onChange }: Props) => (
       onChange={(e) => onChange?.(e.target.value)}
       className="focus:ring-indigo-500 focus:border-indigo-500 flex-1 block w-full rounded-none rounded-l-md sm:text-sm border-gray-300"
     />
-    <span className="inline-flex items-center px-3 rounded-r-md border border-l-0 border-gray-300 bg-gray-50 text-gray-500 text-sm">
+    <span className="inline-flex items-center px-3 rounded-r-md border border-l-0 border-gray-300 bg-gray-50 text-gray-500 text-lg">
       <SearchIcon />
     </span>
   </div>

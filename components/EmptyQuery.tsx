@@ -20,7 +20,7 @@ const suggestions = [
   "bugs",
   "ships",
   "blue sky",
-  "fruit"
+  "fruit",
 ];
 
 const sample = (list: unknown[]) =>

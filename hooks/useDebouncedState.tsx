@@ -3,9 +3,16 @@ import * as React from "react";
 export function useDebouncedState<T>(
   initialValue: T,
   delay: number = 500
-): [debouncedState: T, setState: (value: T) => void, rawState: T] {
-  const [debouncedState, setDebouncedState] = React.useState(initialValue);
-  const [rawState, setRawState] = React.useState(initialValue);
+): [
+  debouncedState: T,
+  setState: (value: T) => void,
+  rawState: T,
+  forceSetState: (value: T) => void
+] {
+  const [debouncedState, setDebouncedState] = React.useState(
+    () => initialValue
+  );
+  const [rawState, setRawState] = React.useState(() => initialValue);
   const timeout = React.useRef<number>();
 
   const setState = React.useCallback(
@@ -20,5 +27,10 @@ export function useDebouncedState<T>(
     [delay]
   );
 
-  return [debouncedState, setState, rawState];
+  const forceSetState = React.useCallback((newValue: T) => {
+    setRawState(newValue);
+    setDebouncedState(newValue);
+  }, []);
+
+  return [debouncedState, setState, rawState, forceSetState];
 }

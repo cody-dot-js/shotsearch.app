@@ -28,10 +28,18 @@ interface Props {
 
 export default function Index({ apiKeys, initialSearchQuery }: Props) {
   const router = useRouter();
-  const [searchQuery, setSearchQuery, searchValue] = useDebouncedState<string>(
-    initialSearchQuery,
-    500
-  );
+  const [
+    searchQuery,
+    setSearchQuery,
+    searchValue,
+    forceSetSearchQuery,
+  ] = useDebouncedState<string>(initialSearchQuery, 500);
+
+  React.useEffect(() => {
+    if (!initialSearchQuery) {
+      forceSetSearchQuery("");
+    }
+  }, [initialSearchQuery]);
 
   React.useEffect(() => {
     if (searchQuery) {
@@ -39,6 +47,7 @@ export default function Index({ apiKeys, initialSearchQuery }: Props) {
     } else {
       router.push("/");
     }
+    // forceSetSearchQuery(searchQuery);
   }, [searchQuery]);
 
   // TODO(cody): error handling...

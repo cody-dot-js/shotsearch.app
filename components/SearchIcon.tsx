@@ -1,10 +1,12 @@
 export const SearchIcon = ({ className }: { className?: string }) => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
-    height="24"
     viewBox="0 0 24 24"
-    width="24"
+    focusable="false"
+    width="1em"
+    height="1em"
     className={className}
+    aria-hidden="true"
   >
     <path d="M0 0h24v24H0z" fill="none" />
     <path
