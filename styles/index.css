@@ -4,6 +4,7 @@
 
 /* Start purging... */
 @tailwind components;
+
 /* Stop purging. */
 
 /* Write you own custom component styles here */
@@ -18,6 +19,7 @@
 
 /* Start purging... */
 @tailwind utilities;
+
 /* Stop purging. */
 
 /* Your own custom utilities */
