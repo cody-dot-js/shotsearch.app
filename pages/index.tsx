@@ -20,6 +20,8 @@ import { SearchField } from "components/SearchField";
 import { SearchResults } from "components/SearchResults";
 import { extractQueryParams } from "lib/extractQueryParams";
 import { EmptyQuery } from "components/EmptyQuery";
+import Head from "next/head";
+
 interface Props {
   apiKeys: ApiKeys;
   dehydratedState: DehydratedState;
@@ -58,6 +60,11 @@ export default function Index({ apiKeys, initialSearchQuery }: Props) {
 
   return (
     <div className="bg-gray-100 min-h-screen">
+      <Head>
+        <title>ShotSearch</title>
+        <meta name="viewport" content="initial-scale=1.0, width=device-width" />
+        <meta property="og:title" content="ShotSearch" />
+      </Head>
       <Header>
         <SearchField value={searchValue} onChange={setSearchQuery} />
       </Header>
