@@ -1,12 +1,13 @@
-import { SearchIcon } from "./SearchIcon";
+import { SearchIcon } from "./icons/SearchIcon";
 
 interface Props {
   value?: string;
   onChange?: (newValue: string) => void;
+  className?: string;
 }
 
-export const SearchField = ({ value, onChange }: Props) => (
-  <div className="flex-grow mt-1 flex rounded-md shadow-sm">
+export const SearchField = ({ value, onChange, className = "" }: Props) => (
+  <div className={`flex-grow mt-1 flex rounded-md shadow-sm ${className}`}>
     <input
       type="search"
       name="searchQuery"

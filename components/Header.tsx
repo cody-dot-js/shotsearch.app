@@ -1,14 +1,14 @@
 import * as React from "react";
 import Link from "next/link";
-import { GithubIcon } from "./GithubIcon";
+import { GithubIcon } from "./icons/GithubIcon";
 
 interface Props {
   children?: React.ReactNode;
 }
 
 export const Header = ({ children }: Props) => (
-  <header className="z-50 sticky top-0 bg-white shadow">
-    <div className="flex items-center	max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
+  <header className="sticky top-0 bg-white shadow z-30">
+    <div className="flex items-center	justify-between max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
       <Link href="/">
         <img
           className="cursor-pointer mr-4"
@@ -23,15 +23,6 @@ export const Header = ({ children }: Props) => (
         </h1>
       </Link>
       {children}
-      <div className="text-xl flex-none ml-4 hover:text-gray-700 focus:text-gray-700 text-gray-400  focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-white">
-        <a
-          href="https://github.com/dev-cprice/shotsearch.app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <GithubIcon />
-        </a>
-      </div>
     </div>
   </header>
 );

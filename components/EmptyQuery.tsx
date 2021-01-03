@@ -1,6 +1,7 @@
 import { SuggestionApiResponse } from "pages/api/suggestion";
 import * as React from "react";
 import wretch from "wretch";
+import { ImageSearchIcon } from "./icons/ImageSearch";
 
 interface Props {
   searchQuery?: string;
@@ -22,14 +23,21 @@ export const EmptyQuery = ({ searchQuery }: Props) => {
   }, []);
 
   return isEmpty ? (
-    <div className="h-48 p-6 text-gray-400 justify-center flex items-center font-semibold">
-      {Boolean(suggestion) ? (
-        <p>Try searching for {suggestion}!</p>
-      ) : (
-        <Placeholder />
-      )}
+    <div className="p-6 text-gray-400 font-semibold">
+      <p className="flex justify-center items-center">
+        {Boolean(suggestion) ? (
+          `Try searching for ${suggestion}!`
+        ) : (
+          <Placeholder />
+        )}
+      </p>
+      <p className="flex justify-center mt-4 text-9xl">
+        <ImageSearchIcon />
+      </p>
     </div>
   ) : null;
 };
 
-const Placeholder = () => <p className="bg-gray-300 rounded h-4 w-48" />;
+const Placeholder = () => (
+  <span className="inline-block bg-gray-200 rounded h-6 w-48" />
+);

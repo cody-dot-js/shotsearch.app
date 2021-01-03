@@ -3,6 +3,12 @@ module.exports = {
   plugins: [require("@tailwindcss/forms"), require("@tailwindcss/typography")],
   theme: {
     extend: {
+      // fontFamily: {
+      //   sans: [
+      //     "Inter var",
+      //     require("tailwindcss/defaultTheme").fontFamily.sans,
+      //   ],
+      // },
       colors: {
         "accent-1": "#FAFAFA",
         "accent-2": "#EAEAEA",

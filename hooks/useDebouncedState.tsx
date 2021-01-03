@@ -9,10 +9,8 @@ export function useDebouncedState<T>(
   rawState: T,
   forceSetState: (value: T) => void
 ] {
-  const [debouncedState, setDebouncedState] = React.useState(
-    () => initialValue
-  );
-  const [rawState, setRawState] = React.useState(() => initialValue);
+  const [debouncedState, setDebouncedState] = React.useState(initialValue);
+  const [rawState, setRawState] = React.useState(initialValue);
   const timeout = React.useRef<number>();
 
   const setState = React.useCallback(

@@ -1,12 +1,16 @@
 import * as React from "react";
-import { GetStaticProps } from "next";
 import { useRouter } from "next/router";
 import { EmptyQuery } from "components/EmptyQuery";
 import { Layout } from "components/Layout";
-import { makeSearchPath } from "./search";
+import { GetStaticProps } from "next";
 import { Loading } from "components/Loading";
 
-export default function Index() {
+export const searchPath = "/search";
+
+export const makeSearchPath = (query: string): string =>
+  `${searchPath}/${query}`;
+
+export default function SearchIndex() {
   const router = useRouter();
 
   const [isLoading, setIsLoading] = React.useState<boolean>(false);
