@@ -43,11 +43,11 @@ export function Layout({
       <Head>
         <title>ShotSearch</title>
         <link rel="icon" href="/favicon.ico" key="favicon" />
-        <meta
+        {/* <meta
           name="viewport"
           content="initial-scale=1.0, width=device-width"
           key="viewport"
-        />
+        /> */}
         <meta property="og:title" content="ShotSearch" key="title" />
         {/* <link
           rel="stylesheet"
